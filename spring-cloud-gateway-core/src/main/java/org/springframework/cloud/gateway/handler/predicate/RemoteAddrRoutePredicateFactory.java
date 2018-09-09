@@ -75,7 +75,9 @@ public class RemoteAddrRoutePredicateFactory extends AbstractRoutePredicateFacto
 		return exchange -> {
 			InetSocketAddress remoteAddress = config.remoteAddressResolver.resolve(exchange);
 			if (remoteAddress != null) {
-				String hostAddress = remoteAddress.getAddress().getHostAddress();
+				String hostAddress = remoteAddress.getAddress() != null ? remoteAddress.getAddress()
+						.getHostAddress() : remoteAddress.getHostName();
+
 				String host = exchange.getRequest().getURI().getHost();
 
 				if (log.isDebugEnabled() && !hostAddress.equals(host)) {
